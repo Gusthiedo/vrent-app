@@ -7,7 +7,7 @@ const Hero = () => {
     <section>
       <div className=" flex justify-center w-full lg:h-screen overflow-hidden ">
         <div className="w-4/5 md:w-3/5 lg:w-2/5">
-          <div className="text-center lg:text-left flex flex-col lg:justify-center items-center md:px-8 lg:px-12 xl:px-16 2xl:px-20  py-20 md:py-28 lg:pt-72 xl:pt-56">
+          <div className=" text-center lg:text-left flex flex-col lg:justify-center items-center md:px-8 lg:px-12 xl:px-16 2xl:px-20 pb-40  h-full">
             <img className="lg:hidden" src={rush} alt="" />
             <h1 className="text-4xl md:text-5xl xl:text-6xl font-semibold tracking-wide leading-[1.15]">
               Best <span className="text-[#C05F31]">variety</span> vehicle for
