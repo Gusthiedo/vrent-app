@@ -1,0 +1,18 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	html,
+	body,
+	* {
+		@apply font-rubik;
+	}
+}
+
+.swal2-popup .swal2-styled:focus {
+	font-size: 16px;
+	box-shadow: none;
+}
