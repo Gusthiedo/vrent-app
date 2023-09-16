@@ -50,16 +50,16 @@ Pull Codebase terbaru
   git pull origin main
 ```
 
-Install dependencies
-
-```bash
-  npm install
-```
-
 Untuk masuk ke bagian Back end
 
 ```bash
   cd vrent-backend
+```
+
+Install dependencies
+
+```bash
+  npm install
 ```
 
 Silahkan sesuaikan Database sesuai pc masing masing
@@ -81,10 +81,10 @@ Untuk masuk ke bagian Front end
   cd vrent-frontend
 ```
 
-Untuk masuk ke bagian Front end
+Install dependencies
 
 ```bash
-  cd vrent-frontend
+  npm install
 ```
 
 Sesuaikan Source API dengan localhost masing masing
