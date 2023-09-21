@@ -4,6 +4,7 @@ import Hero from "../feautres/pages/home/Hero";
 import Testimoni from "../feautres/pages/home/Testimoni";
 import Public from "../layouts/Public";
 import Plan from "../feautres/pages/home/Plan";
+import VehicleModels from "../feautres/pages/home/VehicleModels";
 
 const Home = () => {
 	return (
@@ -12,6 +13,7 @@ const Home = () => {
 				{/* Home ngoding disini */}
 				<Hero />
 				<Plan />
+				<VehicleModels />
 				<Banner />
 				<Choose />
 				<Testimoni />

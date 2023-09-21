@@ -25,4 +25,10 @@ const userTransaction = (id) => {
   return dbPool.execute(query);
 }
 
-module.exports = { getTransactions, getTransaction, createTransaction, userTransaction }
+const update = (id) => {
+  const query = ''
+
+  return dbPool.execute(query);
+}
+
+module.exports = { getTransactions, getTransaction, createTransaction, userTransaction, update }

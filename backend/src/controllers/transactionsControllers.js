@@ -115,9 +115,18 @@ const getTransactionUser = async (req, res) => {
   }
 }
 
+const updateTransactionById = async (req, res) => {
+  try {
+    
+  } catch (error) {
+    
+  }
+}
+
 module.exports = {
   getAllTransactions,
   getTransactionById,
   insertNewTransaction,
-  getTransactionUser
+  getTransactionUser,
+  updateTransactionById
 }
