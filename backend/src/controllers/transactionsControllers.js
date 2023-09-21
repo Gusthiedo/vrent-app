@@ -1,4 +1,5 @@
-const { getTransactions, getTransaction, createTransaction } = require('../models/transactionsModels');
+const { getAvailabilityCar } = require('../models/carsModels');
+const { getTransactions, getTransaction, createTransaction, userTransaction } = require('../models/transactionsModels');
 
 const getAllTransactions = async (req, res) => {
   try {
@@ -62,18 +63,19 @@ const insertNewTransaction = async (req, res) => {
       pickoff_time
     } = req.body;
 
-    //tugas siapa
-    //ambil data car berdasarkan id di database
-    
+    const [statusCar] = await getAvailabilityCar(car_id);
 
     if(!car_id || !pickup_date || !pickoff_date || !pickup_location || !pickoff_location || !pickup_time || !pickoff_time) {
       return res.status(400).send({
         message: 'some field must be filled, cannot be empty'
       });
     }
-    
-    //validasi ketersediaan mobil
-    //bandingkan status ketersediaan mobil
+    console.log(statusCar[0].availability);
+    if(statusCar[0].availability !== 1) {
+      return res.send({
+        message: 'cannot reserve! car is not available now'
+      })
+    }
 
     await createTransaction(car_id, pickup_date, pickoff_date, pickup_location, pickoff_location, id, pickup_time, pickoff_time);
 
@@ -89,4 +91,33 @@ const insertNewTransaction = async (req, res) => {
   }
 }
 
-module.exports = { getAllTransactions, getTransactionById, insertNewTransaction }
+const getTransactionUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const [data] = await userTransaction(id);
+
+    if(data.length === 0) {
+      return res.send({
+        message: 'you have not made a transaction yet'
+      })
+    }
+
+    return res.status(200).send({
+      message: 'get user transactions success',
+      data: data
+    })
+  } catch (error) {
+    return res.send({
+      message: 'server error',
+      serverMessage: error.message
+    });
+  }
+}
+
+module.exports = {
+  getAllTransactions,
+  getTransactionById,
+  insertNewTransaction,
+  getTransactionUser
+}
