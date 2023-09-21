@@ -18,4 +18,11 @@ const createTransaction = (car_id, pickup_date, pickoff_date, pickup_location, p
   return dbPool.execute(query);
 }
 
-module.exports = { getTransactions, getTransaction, createTransaction }
+const userTransaction = (id) => {
+  const query = ` SELECT * FROM transactions INNER JOIN users ON transactions.user_id=users.id_user
+                  WHERE user_id=${id}`;
+
+  return dbPool.execute(query);
+}
+
+module.exports = { getTransactions, getTransaction, createTransaction, userTransaction }

@@ -12,4 +12,10 @@ const getCar = (id) => {
   return dbPool.execute(query);
 }
 
-module.exports = { getCars, getCar }
+const getAvailabilityCar = (id) => {
+  const query = `SELECT availability FROM cars WHERE id_car=${id}`;
+
+  return dbPool.execute(query);
+}
+
+module.exports = { getCars, getCar, getAvailabilityCar }

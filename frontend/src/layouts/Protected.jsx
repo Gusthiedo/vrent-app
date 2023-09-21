@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 
 const Protected = ({ children }) => {
@@ -8,7 +7,6 @@ const Protected = ({ children }) => {
     <section>
       <Navbar />
       {children}
-      <Footer />
     </section>
   );
 };
