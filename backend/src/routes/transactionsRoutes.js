@@ -1,5 +1,5 @@
 const express = require('express');
-const { getAllTransactions, getTransactionById, insertNewTransaction, getTransactionUser } = require('../controllers/transactionsControllers');
+const { getAllTransactions, getTransactionById, insertNewTransaction, getTransactionUser, updateTransactionById } = require('../controllers/transactionsControllers');
 const tokenValidation = require('../middleware/tokenValidation');
 
 const router = express.Router();
@@ -11,6 +11,6 @@ router.post('/create', tokenValidation, insertNewTransaction);
 
 //bagian siapa?
 //membuat controller dan models update transaction
-router.put('/update/:id');
+router.put('/update/:id', tokenValidation, updateTransactionById);
 
 module.exports = router;

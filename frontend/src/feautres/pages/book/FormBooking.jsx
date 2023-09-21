@@ -13,6 +13,7 @@ import innova from '../../../assets/images/innova.png';
 import rush from '../../../assets/images/rush.png';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const FormBooking = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -23,6 +24,9 @@ const FormBooking = () => {
   const [datePickUp, setDatePickUp] = useState();
   const [datePickOff, setDatePickOff] = useState();
   const [timePickUp, setTimePickUp] = useState();
+  const [saveLocationPick, setSaveLocationPick] = useState();
+  const [saveLocationOff, setSaveLocationOff] = useState();
+  const [price, setPrice] = useState();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,11 +34,21 @@ const FormBooking = () => {
     if(statusLogin) {
       setIsLogin(statusLogin)
     }
-  }, [isLogin])
+
+    axios.get(`http://localhost:3003/api/cars/${carId}`)
+         .then(data => {
+          setPrice(data.data.data[0].price)
+         })
+  }, [isLogin, carId]);
+
 
   const handleSearch = (e) => {
     console.log(datePickOff)
     console.log(datePickUp)
+    console.log(saveLocationPick)
+    console.log(saveLocationOff)
+    console.log(price)
+    
     e.preventDefault();
     if(isLogin === false) {
       Swal.fire({
@@ -85,8 +99,8 @@ const FormBooking = () => {
         
         {/* Pick up & pick off location */}
         <div className='flex flex-col md:flex-row gap-5'>
-          <PickLocation children={'Pick-up Location'} defaultOption={'Select pick up location'}/>
-          <PickLocation children={'Pick-off Location'} defaultOption={'Select pick off location'} />
+          <PickLocation setSaveLocation={setSaveLocationPick} children={'Pick-up Location'} defaultOption={'Select pick up location'}/>
+          <PickLocation setSaveLocation={setSaveLocationOff} children={'Pick-off Location'} defaultOption={'Select pick off location'} />
         </div>
 
         <button type='submit' className='text-xl text-white w-full lg:w-[49%] h-11 rounded bg-primary shadow-md hover:brightness-90'>Search</button>
@@ -140,7 +154,7 @@ const FormBooking = () => {
                 <div className='flex flex-col gap'>
                   <p className='text-sm font-medium'>Pick-Up Location</p>
                   <div className='flex justify-between items-center text-sm text-grey-text'>
-                    <span>Jakarta</span>
+                    <span>{saveLocationPick}</span>
                   </div>
                 </div>
               </li>
@@ -149,7 +163,7 @@ const FormBooking = () => {
                 <div className='flex flex-col gap'>
                   <p className='text-sm font-medium'>Pick-Off Location</p>
                   <div className='flex justify-between items-center text-sm text-grey-text'>
-                    <span>Tangerang</span>
+                    <span>{saveLocationOff}</span>
                   </div>
                 </div>
               </li>
@@ -163,7 +177,7 @@ const FormBooking = () => {
                   selectedCar === "Innova" ? innova : selectedCar === "Rush" ? rush : selectedCar === "Hiace"
                 } alt="" />
               </div>
-              <h2 className=' text-lg font-semibold'>Cost : <span className='text-grey-text'>Rp 400.000 /day</span></h2>
+              <h2 className=' text-lg font-semibold'>Cost : <span className='text-grey-text'>Rp {price} /day</span></h2>
             </div>
           </div>
         </Modal.Body>
