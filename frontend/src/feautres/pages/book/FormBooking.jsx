@@ -10,6 +10,7 @@ import mail from '../../../assets/icons/icon-mail-form.png';
 import calendar from '../../../assets/icons/icon-calendar.png';
 import location from '../../../assets/icons/icon-location.png';
 import innova from '../../../assets/images/innova.png';
+import rush from '../../../assets/images/rush.png';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,6 +18,11 @@ const FormBooking = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [openModal, setOpenModal] = useState(null);
   const props = { openModal, setOpenModal };
+  const [selectedCar, setSelectedCar] = useState();
+  const [carId, setCarId] = useState();
+  const [datePickUp, setDatePickUp] = useState();
+  const [datePickOff, setDatePickOff] = useState();
+  const [timePickUp, setTimePickUp] = useState();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,7 +32,9 @@ const FormBooking = () => {
     }
   }, [isLogin])
 
-  const handleSubmit = (e) => {
+  const handleSearch = (e) => {
+    console.log(datePickOff)
+    console.log(datePickUp)
     e.preventDefault();
     if(isLogin === false) {
       Swal.fire({
@@ -47,7 +55,10 @@ const FormBooking = () => {
     }
   }
 
-  const handleOnClickForm = () => {
+  const handleOnClickReserve = () => {
+    console.log(carId)
+    console.log(timePickUp)
+
     props.setOpenModal(undefined);
     
     setTimeout(() => {
@@ -57,20 +68,19 @@ const FormBooking = () => {
         confirmButtonColor: '#C05F31',
       });
     }, 200);
-
   }
 
   return (
     <div className='mt-5 mb-10'>
       <h1 className='text-2xl font-semibold mb-4 md:-translate-x-10'>Search and Book Car</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-7 border border-black rounded p-10">
+      <form onSubmit={handleSearch} className="flex flex-col gap-7 border border-black rounded p-10">
         {/* Select car */}
-        <SelectCar />
-
+        <SelectCar setCarId={setCarId} setCar={setSelectedCar} />
+        
         {/* Pick up & pick 0ff date */}
         <div className='flex flex-col md:flex-row gap-5'>
-          <PickDate children={'Pick-up Date'} />
-          <PickDate children={'Pick-off Date'} />
+          <PickDate setDate={setDatePickUp} children={'Pick-up Date'} />
+          <PickDate setDate={setDatePickOff} children={'Pick-off Date'} />
         </div>
         
         {/* Pick up & pick off location */}
@@ -111,7 +121,7 @@ const FormBooking = () => {
                   <p className='text-sm font-medium'>Pick-Up Date & Time</p>
                   <div className='flex justify-between gap-4 items-center text-sm text-grey-text'>
                     <span>12-07-2023</span>
-                    <input type="time" className='border border-black focus:outline-none px-1 rounded' required />
+                    <input onChange={(e) => setTimePickUp(e.target.value)} type="time" className='border border-black focus:outline-none px-1 rounded' required />
                   </div>
                 </div>
               </li>
@@ -146,10 +156,12 @@ const FormBooking = () => {
             </ul>
 
             <div className='h-full'>
-              <h2 className='text-lg font-semibold mb-5 md:mb-2'>Car - <span className='text-grey-text'>Kijang Innova</span>
+              <h2 className='text-lg font-semibold mb-5 md:mb-2'>Car - <span className='text-grey-text'>{selectedCar}</span>
               </h2>
               <div className='w-60 h-full flex items-center py-4'>
-                <img src={innova} alt="" />
+                <img src={
+                  selectedCar === "Innova" ? innova : selectedCar === "Rush" ? rush : selectedCar === "Hiace"
+                } alt="" />
               </div>
               <h2 className=' text-lg font-semibold'>Cost : <span className='text-grey-text'>Rp 400.000 /day</span></h2>
             </div>
@@ -157,7 +169,7 @@ const FormBooking = () => {
         </Modal.Body>
         <Modal.Footer className='h-20 bg-white'>
           <div className='w-full flex justify-end'>
-            <button onClick={handleOnClickForm} className='text-xl text-white py-2 px-8 rounded bg-primary shadow-md hover:brightness-90'>Reserve Now</button>
+            <button onClick={handleOnClickReserve} className='text-xl text-white py-2 px-8 rounded bg-primary shadow-md hover:brightness-90'>Reserve Now</button>
           </div>
         </Modal.Footer>
       </Modal>
