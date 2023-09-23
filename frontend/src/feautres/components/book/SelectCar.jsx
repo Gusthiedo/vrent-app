@@ -1,16 +1,15 @@
-import car from '../../../assets/icons/icon-car.png';
+import car from "../../../assets/icons/icon-car.png";
 import { useEffect, useState } from "react";
 import axios from "axios";
-
 
 // eslint-disable-next-line react/prop-types
 const SelectCar = ({ setCar, setCarId }) => {
   const [Cars, setCars] = useState();
-  
+
   useEffect(() => {
     getCars();
   }, []);
-  
+
   const getCars = async () => {
     const response = await axios.get("http://localhost:3003/api/cars");
     setCars(response.data.data);
@@ -20,7 +19,7 @@ const SelectCar = ({ setCar, setCarId }) => {
     e.preventDefault();
     setCarId(e.target.selectedIndex);
     setCar(e.target.value);
-  }
+  };
 
   return (
     <div className="flex flex-col gap-1">
@@ -35,14 +34,17 @@ const SelectCar = ({ setCar, setCarId }) => {
         name="select-car"
         required
         onChange={handleOnChange}
-        defaultValue={"Select your car.."}
+        // defaultValue={"Select your car.."}
       >
-        <option value="" disabled>Select your car..</option>
-        {
-          Cars && Cars.map((car, index) => (
-            <option id={car.id_car} key={index}>{car.name}</option>
-          ))
-        }
+        <option value="" hidden>
+          Select your car..
+        </option>
+        {Cars &&
+          Cars.map((car, index) => (
+            <option id={car.id_car} key={index}>
+              {car.name}
+            </option>
+          ))}
       </select>
     </div>
   );
