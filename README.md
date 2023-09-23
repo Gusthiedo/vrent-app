@@ -35,7 +35,7 @@ pilih database yang telah dibuat, lalu pilih import dan masukkan file .sql yang 
 Clone repository
 
 ```bash
-  git clone https://github.com/iqbalherdianysah/vrent-frontend.git
+  git clone https://github.com/vrent-repo/repo.git
 ```
 
 Checkout ke branch masing-masing

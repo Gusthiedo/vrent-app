@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-children-prop */
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import PickDate from "../../components/book/PickDate";
 import PickLocation from "../../components/book/PickLocation";
 import SelectCar from "../../components/book/SelectCar";
@@ -16,14 +16,14 @@ import hiace from "../../../assets/images/hiace.png";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-// import tokenValidation from "../../../../../backend/src/middleware/tokenValidation";
+import { UserContext } from "../../../context/UserContext";
+import jwt_decode from "jwt-decode";
 
 const FormBooking = () => {
-  const [isLogin, setIsLogin] = useState(false);
   const [openModal, setOpenModal] = useState(null);
   const props = { openModal, setOpenModal };
   const [selectedCar, setSelectedCar] = useState();
-  const [carId, setCarId] = useState();
+  const [carId, setCarId] = useState(1);
   const [datePickUp, setDatePickUp] = useState();
   const [datePickOff, setDatePickOff] = useState();
   const [timePickUp, setTimePickUp] = useState();
@@ -31,28 +31,26 @@ const FormBooking = () => {
   const [saveLocationPick, setSaveLocationPick] = useState();
   const [saveLocationOff, setSaveLocationOff] = useState();
   const [price, setPrice] = useState();
+  const {token} = useContext(UserContext);
+  const [msg, setMsg] = useState();
+  const [name, setName] = useState();
+  const [email, setEmail] = useState();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const statusLogin = JSON.parse(localStorage.getItem("isLogin"));
-    if (statusLogin) {
-      setIsLogin(statusLogin);
-    }
-
     axios.get(`http://localhost:3003/api/cars/${carId}`).then((data) => {
-      setPrice(data.data.data[0].price);
+        setPrice(data.data.data[0].price);
     });
-  }, [isLogin, carId]);
+  }, [carId]);
 
   const handleSearch = (e) => {
-    console.log(datePickOff);
-    console.log(datePickUp);
-    console.log(saveLocationPick);
-    console.log(saveLocationOff);
-    console.log(price);
+    const decode = jwt_decode(token);
+
+    setName(decode.name);
+    setEmail(decode.email);
 
     e.preventDefault();
-    if (isLogin === false) {
+    if (token === undefined) {
       Swal.fire({
         title: "You have to login to book a car!",
         showCancelButton: true,
@@ -73,23 +71,8 @@ const FormBooking = () => {
 
   const handleOnClickReserve = async (e) => {
     e.preventDefault();
-    // const config = {
-    //   headers: { Authorization: `Bearer ${tokenValidation}` },
-    // };
-    // const {
-    //   car_id: carId,
-    //   pickup_date: datePickUp,
-    //   pickoff_date: datePickOff,
-    //   pickup_location: saveLocationPick,
-    //   pickoff_location: saveLocationOff,
-    //   pickup_time: timePickUp,
-    //   pickoff_time: timePickOff,
-    // } = req.body;
-    // const userId = req.user;
-
-    // console.log(userId);
-
-    await axios
+    try {
+      await axios
       .post(`http://localhost:3003/api/transactions/create`, {
         car_id: carId,
         pickup_date: datePickUp,
@@ -98,7 +81,13 @@ const FormBooking = () => {
         pickoff_location: saveLocationOff,
         pickup_time: timePickUp,
         pickoff_time: timePickOff,
-      })
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+      )
       .then((res) => {
         console.log(res);
       });
@@ -112,6 +101,15 @@ const FormBooking = () => {
         confirmButtonColor: "#C05F31",
       });
     }, 200);
+    } catch (error) {
+      setMsg(error.response.data.message);
+
+      Swal.fire({
+        title: msg,
+        confirmButtonColor: "#C05F31",
+        icon: "warning",
+      })
+    }
   };
 
   return (
@@ -169,11 +167,11 @@ const FormBooking = () => {
             <ul className="text-grey-text flex flex-col gap-2">
               <li className="flex items-center gap-4">
                 <img className="w-4" src={user} alt="icon-user" />
-                <span>Ucup</span>
+                <span>{name}</span>
               </li>
               <li className="flex items-center gap-4">
                 <img className="w-4" src={mail} alt="icon-mail" />
-                <span>ucup@gmail.com</span>
+                <span>{email}</span>
               </li>
             </ul>
           </div>
@@ -213,10 +211,10 @@ const FormBooking = () => {
                   <div className="flex justify-between gap-4 items-center text-sm text-grey-text">
                     <span>{datePickOff}</span>
                     <input
+                      required
                       onChange={(e) => setTimePickOff(e.target.value)}
                       type="time"
                       className="border border-black focus:outline-none px-1 rounded"
-                      required
                     />
                   </div>
                 </div>
