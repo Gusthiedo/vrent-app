@@ -1,5 +1,5 @@
 const { getAvailabilityCar } = require('../models/carsModels');
-const { getTransactions, getTransaction, createTransaction, userTransaction } = require('../models/transactionsModels');
+const { getTransactions, getTransaction, createTransaction, userTransaction, update } = require('../models/transactionsModels');
 
 const getAllTransactions = async (req, res) => {
   try {
@@ -117,9 +117,26 @@ const getTransactionUser = async (req, res) => {
 
 const updateTransactionById = async (req, res) => {
   try {
-    
+    const { email } = req.user;
+    const { status } = req.body;
+    const { id } = req.params;
+
+    if(email !== 'admin@mail.com') {
+     return res.status(403).send({
+      message: 'unauthorized'
+     });
+    }
+
+    await update(status, id);
+
+    res.status(201).send({
+      message: 'transaction update success'
+    })
   } catch (error) {
-    
+    return res.send({
+      message: 'server error',
+      serverMessage: error.message
+    });
   }
 }
 
