@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
-function Button({text}) {
+function Button({text, type}) {
   return (
-    <button type="submit" className="w-full h-10 bg-black rounded mt-2">{text}</button>
+    <button type={type} className="w-full h-10 bg-black rounded mt-2">{text}</button>
   )
 }
 

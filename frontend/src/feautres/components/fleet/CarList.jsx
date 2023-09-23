@@ -6,9 +6,9 @@ import steer from "/src/assets/icons/fleet/steer.svg";
 import seat from "/src/assets/icons/fleet/seat.svg";
 
 const CarList = () => {
-  return car.map((e) => {
+  return car.map((e, index) => {
     return (
-      <div className="sm:flex bg-white rounded-xl py-8">
+      <div key={index} className="sm:flex bg-white rounded-xl py-8">
         <div className="flex flex-col items-center sm:w-1/2">
           <div className="flex items-center justify-center h-full">
             <img src={`${e.img}`} alt="" />
