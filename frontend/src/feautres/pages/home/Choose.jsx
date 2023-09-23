@@ -1,8 +1,14 @@
 import icon1 from "../../../assets/icons/iconc1.svg";
 import icon2 from "../../../assets/icons/iconc2.svg";
 import icon3 from "../../../assets/icons/iconc3.svg";
+import { useNavigate } from "react-router-dom";
 
 const Choose = () => {
+  const navigate = useNavigate();
+  const handleReserve = (e) => {
+    e.preventDefault();
+    navigate("/book");
+  };
   return (
     <section className="container flex flex-col justify-between gap-6 sm:gap-10 md:gap-16 lg:flex-row">
       <div className="flex flex-col justify-center sm:text-center lg:py-12 lg:text-left xl:w-5/12 xl:py-24">
@@ -19,11 +25,12 @@ const Choose = () => {
           scrambled it to make a type
         </p>
         <div className="flex flex-col gap-2.5 sm:flex-row sm:justify-center lg:justify-start">
-          <a href="#">
-            <button className="hover:brightness-75 font-semibold bg-[#c56a40] rounded-md py-4 px-8 text-xl text-white shadow-lg">
-              Book Now
-            </button>
-          </a>
+          <button
+            onClick={handleReserve}
+            className="hover:brightness-75 font-semibold bg-[#c56a40] rounded-md py-4 px-8 text-xl text-white shadow-lg"
+          >
+            Book Now
+          </button>
         </div>
       </div>
 
