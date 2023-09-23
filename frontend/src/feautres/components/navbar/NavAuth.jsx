@@ -1,29 +1,31 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from "../../../context/UserContext";
+import jwt_decode from "jwt-decode";
 
 function NavAuth() {
-  const [isLogin, setIsLogin] = useState(false);
+  const {token, setToken} = useContext(UserContext);
+  const [user, setUser] = useState();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const statusLogin = JSON.parse(localStorage.getItem('isLogin'));
-    if(statusLogin) {
-      setIsLogin(statusLogin)
+    if(token) {
+      const decode = jwt_decode(token);
+      setUser(decode);
     }
-  }, [isLogin]);
+  }, []);
 
   const handleClick = (e) => {
     e.preventDefault();
-
-    localStorage.setItem('isLogin', JSON.stringify(false));
+    setToken(undefined)
     navigate('/');
-    location.reload()
+    location.reload();
   }
   
   return (
     <div className="text-base pt-4 min-[900px]:pt-0 flex items-center gap-4 font-medium">
-      {!isLogin ? (
+      {!user ? (
         <>
           <Link to={'/login'}>
             <button  className="hover:-translate-y-[1px]">Sign In</button>

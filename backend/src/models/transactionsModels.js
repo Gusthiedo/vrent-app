@@ -25,8 +25,8 @@ const userTransaction = (id) => {
   return dbPool.execute(query);
 }
 
-const update = (id) => {
-  const query = ''
+const update = (statusUpdate, id) => {
+  const query = `UPDATE transactions SET status='${statusUpdate}' WHERE id_transaction=${id}`
 
   return dbPool.execute(query);
 }

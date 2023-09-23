@@ -7,6 +7,7 @@ import Plan from "../feautres/pages/home/Plan";
 import VehicleModels from "../feautres/pages/home/VehicleModels";
 
 const Home = () => {
+
 	return (
 		<Public>
 			<div>

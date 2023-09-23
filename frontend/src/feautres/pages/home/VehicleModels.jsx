@@ -13,7 +13,7 @@ function VehicleModels() {
   useEffect(() => {
     getCar();
   
-  }, [])
+  }, []);
 
   const getCar = async () => {
     axios.get("http://localhost:3003/api/cars")
