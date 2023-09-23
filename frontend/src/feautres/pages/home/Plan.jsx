@@ -6,7 +6,7 @@ import processIconCs from "../../../assets/icons/process-icon-cs.svg";
 const Plan = () => {
   return (
     <section>
-      <div className="container py-10">
+      <div className="container mt-80  md:mt-32 lg:mt-10">
         <div className="text-center pt-40">
           <h1 className="text-xl sm:text-2xl lg:text-3xl font-medium mb-2">
             Plan your trip
