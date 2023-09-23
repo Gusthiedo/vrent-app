@@ -36,8 +36,8 @@ function VehicleModels() {
       </div>
 
       <div className="w-[75%] mx-auto flex justify-center min-[1300px]:justify-between flex-wrap gap-12 lg:gap-20">
-        <div className="flex flex-col justify-between">
-          <ul className="w-full lg:w-auto flex-1 min-[1300px]:flex-grow-0 text-xl font-medium flex flex-col gap-2">
+        <div className="w-full lg:w-auto lg:flex-1 flex flex-col justify-between gap-2 min-[1300px]:gap-0">
+          <ul className="w-full text-xl font-medium flex flex-col gap-2">
             {
               cars?.map((car, index) => (
                 <li key={index} onClick={handleClick} value={index} className="text-center bg-white hover:bg-black hover:text-white py-2 px-8 cursor-pointer">{car.name}</li>
@@ -46,7 +46,7 @@ function VehicleModels() {
           </ul>
           
           <Link to='/book'>
-            <button className="text-white py-3 px-4 bg-black rounded shadow- shadow-slate-400 hover:brightness-90">Reserve Now</button>
+            <button className="w-full text-white py-3 px-4 bg-black rounded shadow- shadow-slate-400 hover:brightness-90">Reserve Now</button>
           </Link>
         </div>
 
